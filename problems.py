@@ -1,3 +1,5 @@
+from euler_tran.prime import sieves
+
 class Problem(object):
     def get_answer(self):
         raise NotImplementedError
@@ -172,6 +174,9 @@ class Problem9(Problem):
                 if lhs == rhs:
                     return a, b
 
+def problem10():
+   primes = sieves.Erasosthenes.primes_less_than(2000000)
+   print sum(primes)
+
 if __name__ == "__main__":
-    problem = Problem9()
-    print problem.get_answer()
+    problem10()

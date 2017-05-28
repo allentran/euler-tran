@@ -1,11 +1,9 @@
-
 class Problem(object):
-
     def get_answer(self):
         raise NotImplementedError
 
-class Problem4(Problem):
 
+class Problem4(Problem):
     def __init__(self):
 
         self.min = 100
@@ -19,25 +17,23 @@ class Problem4(Problem):
     def max_palin(self):
 
         curr_max = 0
-        for num_i in xrange(self.min, self.max+1):
-            for num_j in xrange(self.min, self.max+1):
+        for num_i in xrange(self.min, self.max + 1):
+            for num_j in xrange(self.min, self.max + 1):
                 product = num_i * num_j
-                if product >= curr_max and self.ispalindrome(num_i*num_j):
+                if product >= curr_max and self.ispalindrome(num_i * num_j):
                     curr_max = product
         return curr_max
 
     def get_answer(self):
         print self.max_palin()
 
-# problem 5
 
 class Problem5(Problem):
-
     def __init__(self):
 
         self.primes = [2, 3, 5, 7, 11, 13, 17, 19]
 
-    def findPrimeFactors(self, num):
+    def find_prime_factors(self, num):
         factors = {}
         for prime in self.primes:
             curr_num = num
@@ -50,12 +46,12 @@ class Problem5(Problem):
         print factors
         return factors
 
-    def findSmallestProd(self, max_prod):
+    def find_smallest_prod(self, max_prod):
 
-        prods = range(1, max_prod+1)
+        prods = range(1, max_prod + 1)
         primes = {}
         for num in prods:
-            factors = self.findPrimeFactors(num)
+            factors = self.find_prime_factors(num)
             for f in factors:
                 if f in primes:
                     if factors[f] > primes[f]:
@@ -64,30 +60,29 @@ class Problem5(Problem):
                     primes[f] = factors[f]
         cum_prod = 1
         for f in primes:
-            cum_prod *= f**primes[f]
-                
+            cum_prod *= f ** primes[f]
+
         return primes, cum_prod
 
     def get_answer(self):
-        print self.findSmallestProd(20)
+        print self.find_smallest_prod(20)
+
 
 class Problem6(Problem):
-
     def findSum(self, num):
-
         cum_squares = 0
         cum_sum = 0
-        for ii in xrange(1, num+1):
-            cum_squares += ii**2
+        for ii in xrange(1, num + 1):
+            cum_squares += ii ** 2
             cum_sum += ii
-        return cum_sum**2 - cum_squares
+        return cum_sum ** 2 - cum_squares
 
     def get_answer(self):
         print self.findSum(100)
 
-class Problem7(Problem):
 
-    def get_prime_number(self, number = 10001):
+class Problem7(Problem):
+    def get_prime_number(self, number=10001):
 
         def is_prime(candidate, primes):
             if candidate % 2 == 0:
@@ -116,8 +111,8 @@ class Problem7(Problem):
     def get_answer(self):
         return self.get_prime_number()
 
-class Problem8(Problem):
 
+class Problem8(Problem):
     @staticmethod
     def calc_cum_prod(list_of_nums):
 
@@ -152,10 +147,10 @@ class Problem8(Problem):
             "84580156166097919133875499200524063689912560717606",
             "05886116467109405077541002256983155200055935729725",
             "71636269561882670428252483600823257530420752963450"
-            ])
+        ])
         sequence = [int(c) for c in sequence]
 
-        max=0
+        max = 0
         for idx in xrange(n - 1, len(sequence)):
             sub_seq = sequence[idx + 1 - n: idx + 1]
             cum_prod = Problem8.calc_cum_prod(sub_seq)
@@ -167,6 +162,16 @@ class Problem8(Problem):
     def get_answer(self):
         return self.get_largest_product()
 
+
+class Problem9(Problem):
+    def get_answer(self):
+        for a in xrange(1, 999):
+            for b in xrange(a, 999):
+                lhs = a ** 2 + b ** 2
+                rhs = (1000 - a - b) ** 2
+                if lhs == rhs:
+                    return a, b
+
 if __name__ == "__main__":
-    problem = Problem8()
+    problem = Problem9()
     print problem.get_answer()

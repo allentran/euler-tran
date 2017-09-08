@@ -3,7 +3,7 @@ import datetime
 import numpy as np
 
 from euler_tran.prime import sieves
-from euler_tran.sequence import product, collatz
+from euler_tran.sequence import product, collatz, misc
 from euler_tran.divisors import factors
 
 class Problem(object):
@@ -422,6 +422,7 @@ def problem67():
                 optimal[n][idx] = right
     print optimal
 
+
 def problem19():
     count = 0
     for year in xrange(1901, 2001):
@@ -432,6 +433,19 @@ def problem19():
     print count
 
 
+def problem24():
+    import itertools
+    print list(itertools.permutations(range(10)))[999]
+
+
+def problem92():
+    count = 0
+    seq = misc.SquareDigitChain()
+    for i in xrange(1, 10000000):
+        end = seq.get_end(i, [i])
+        if end == 89:
+            count += 1
+        print count, i
 
 if __name__ == "__main__":
-    problem19()
+    problem92()

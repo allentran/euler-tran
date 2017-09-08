@@ -1,6 +1,6 @@
 import unittest
 
-from euler_tran.sequence import product, collatz
+from euler_tran.sequence import product, collatz, misc
 from euler_tran.divisors import factors
 
 
@@ -21,5 +21,21 @@ class CommonMethodTests(unittest.TestCase):
     def collatz_test(self):
         collatz_seqs = collatz.CollatzCache()
         self.assertEqual(collatz_seqs.until_n0(13), 10)
-        print collatz_seqs.cache
-        assert False
+
+    def square_div_test(self):
+        sq = misc.SquareDigitChain()
+        end = sq.get_end(44, [44])
+        self.assertEqual(end, 1)
+        self.assertGreater(len(sq.str_cache), 1)
+
+        end = sq.get_end(85, [85])
+        self.assertEqual(end, 89)
+
+        sq = misc.SquareDigitChain()
+        ones = []
+        for n in xrange(1, 14):
+            end = sq.get_end(n, [n])
+            if end == 1:
+                ones.append(n)
+        self.assertIn(13, ones)
+        self.assertIn(7, ones)

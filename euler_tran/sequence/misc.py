@@ -1,5 +1,27 @@
 import numpy as np
 
+
+def fibonacci_generator():
+    prev = [0, 1]
+    idx = 1
+    while True:
+        yield idx, prev[1]
+        idx += 1
+        prev = [prev[1], prev[0] + prev[1]]
+
+
+def recurring_fraction(denom):
+    n = 1 % denom
+    seen = set()
+    count = 0
+    while True:
+        n = 10 * n % denom
+        if n not in seen:
+            seen.add(n)
+            count += 1
+        else:
+            return count
+
 class SquareDigitChain(object):
     def __init__(self):
         self.cache = {}

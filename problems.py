@@ -1,4 +1,5 @@
 import datetime
+import itertools
 
 import numpy as np
 
@@ -433,6 +434,195 @@ def problem19():
     print count
 
 
+def problem25():
+    fib_gen = misc.fibonacci_generator()
+    while True:
+        idx, fib = fib_gen.next()
+        if len(str(fib)) >= 1000:
+            print idx
+            break
+        else:
+            print idx, fib
+
+
+def problem21():
+    def d(n):
+        fs = factors.factors_of_n(n)
+        fs.remove(n)
+        return np.sum(list(fs)).astype(int)
+    ds = {}
+    for idx in xrange(1, 10000):
+        ds[idx] = d(idx)
+
+    amicable = []
+    nums = set(range(1, 10000))
+    while len(nums) > 0:
+        num = nums.pop()
+        if num != 1:
+            d_n = ds[num]
+            try:
+                d_2 = ds[d_n]
+            except KeyError:
+                pass
+            else:
+                if d_2 == num and d_n != num:
+                    amicable += [num, ds[num]]
+        try:
+            nums.remove(ds[num])
+        except KeyError:
+            pass
+    print np.sum(list(set(amicable)))
+
+
+def problem23():
+
+    def is_abuntant(n):
+        return sum(factors.factors_of_n(n, proper=True)) > n
+
+    def is_sum_abundant(root, bitmask):
+        smaller_abundant = abundant_arr[abundant_arr < root]
+        other_reqd = root - smaller_abundant
+        if bitmask[other_reqd].any():
+            return True
+        return False
+
+    abundant_arr = []
+    for n in xrange(1, 28123 + 1):
+        if is_abuntant(n):
+            abundant_arr.append(n)
+    abundant_set = set(abundant_arr)
+    abundant_arr = np.array(abundant_arr)
+    abundant_bitmask = np.zeros(28123 + 1, dtype=np.bool)
+    abundant_bitmask[abundant_arr] = True
+
+    not_summable = []
+    for base in xrange(0, 28123 + 1):
+        if not is_sum_abundant(base, abundant_bitmask):
+            print base, 0
+            not_summable.append(base)
+
+    print np.sum(not_summable)
+
+
+def problem26():
+    curr_max = 0
+    max_idx = 0
+    for x in xrange(2, 1000):
+        recurr = misc.recurring_fraction(x)
+        if recurr > curr_max:
+            curr_max = recurr
+            max_idx = x
+    print curr_max, max_idx
+
+
+def problem27():
+
+    # n=0: b -> b must be prime and |b| <= 1000
+    # n=1: 1 + a + b must be prime (a must be odd, odd + odd = even, odd + odd = even
+    # max prime is
+    bs = sieves.Erasosthenes.primes_less_than(1001)
+    a_prime_set = sieves.Erasosthenes.primes_less_than(1 + 1001 + max(bs))
+    max_in_a_row = 0
+    max_pair = (0, 0)
+    for b in bs:
+        for a in xrange(1 - b, 1000):
+            if 1 + a + b in a_prime_set:
+                n = 0
+                while True:
+                    f_n = n ** 2 + a * n + b
+                    if f_n % 2 == 1 and f_n in a_prime_set:
+                        n += 1
+                        continue
+                    break
+                if n > max_in_a_row:
+                    max_in_a_row = n
+                    max_pair = a, b
+
+    print max_in_a_row, max_pair
+
+
+def problem28():
+
+    def next_pos(y_idx, x_idx, d):
+        if d == 'u':
+            return y_idx - 1, x_idx
+        elif d == 'l':
+            return y_idx, x_idx - 1
+        elif d == 'd':
+            return y_idx + 1, x_idx
+        elif d == 'r':
+            return y_idx, x_idx + 1
+
+    N = 1001
+    matrix = -1 * np.ones((N, N))
+    x = N / 2
+    y = N / 2
+    direction = {
+        'r': 'd',
+        'd': 'l',
+        'l': 'u',
+        'u': 'r'
+    }
+    curr_direction = 'u'
+    for n in xrange(1, N * N + 1):
+        matrix[y, x] = n
+        next_post_same = next_pos(y, x, curr_direction)
+        if next_post_same[0] in [N, -1] or next_post_same[1] in [N, -1] or matrix[next_post_same[0], next_post_same[1]] == -1:
+            next_post_new = next_pos(y, x, direction[curr_direction])
+            if matrix[next_post_new[0], next_post_new[1]] == -1:
+                curr_direction = direction[curr_direction]
+        y, x = next_pos(y, x, curr_direction)
+
+    pos = np.arange(0, N)
+    neg = np.arange(N - 1, -1, -1)
+    print matrix
+    diags = set(matrix[pos, pos])
+    diags |= set(matrix[neg, pos])
+    print sum(diags)
+
+
+def problem29():
+    numbers = set()
+    N = 100
+    for a in xrange(2, N + 1):
+        for b in xrange(2, N + 1):
+            numbers.add(a ** b)
+
+    print len(numbers)
+
+
+def problem30():
+    power = 5
+    all = []
+    for n in xrange(2, 10 ** (power + 1)):
+        str_n = [int(x) for x in (str(n))]
+        if len(str_n) > 1:
+            powers = np.power(str_n, power)
+            sumd = powers.sum()
+            if sumd == n:
+                print n
+                all.append(n)
+    print sum(all)
+
+
+
+
+def problem216():
+    import time
+    N = 10000
+    t0 = time.time()
+    prime_tester = sieves.PrimalityTest(2 * (N * N) - 1, use_set=True)
+    print time.time() - t0
+    assert False
+    count = 0
+    for n in xrange(1, N + 1):
+        t_n = 2 * (n * n) - 1
+        is_prime = prime_tester.is_prime_in_sieve(t_n)
+        if is_prime:
+            count += 1
+    print count
+
+
 def problem24():
     import itertools
     print list(itertools.permutations(range(10)))[999]
@@ -448,4 +638,4 @@ def problem92():
         print count, i
 
 if __name__ == "__main__":
-    problem92()
+    problem30()

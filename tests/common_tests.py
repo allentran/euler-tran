@@ -6,6 +6,19 @@ from euler_tran.divisors import factors
 
 class CommonMethodTests(unittest.TestCase):
 
+    def fib_test(self):
+        gen = misc.fibonacci_generator()
+        for _ in xrange(10):
+            idx, val = gen.next()
+
+        self.assertEqual(idx, 10)
+        self.assertEqual(val, 55)
+
+    def recurring_frac_test(self):
+        self.assertEqual(misc.recurring_fraction(7), 6)
+        self.assertEqual(misc.recurring_fraction(9), 1)
+        self.assertEqual(misc.recurring_fraction(6), 1)
+
     def find_factors_test(self):
         self.assertEqual(factors.factors_of_n(6), {1, 2, 3, 6})
         self.assertEqual(factors.factors_of_n(1), {1})

@@ -22,6 +22,28 @@ def recurring_fraction(denom):
         else:
             return count
 
+
+class TriangleNumber(object):
+    def __init__(self, max_n):
+        self.curr_idx = 1
+        self.set = {1}
+        self.curr_max = 1
+
+        self.expand_upto(max_n)
+
+    def expand_upto(self, max_element):
+        if max_element > self.curr_max:
+            j = self.curr_idx + 1
+            while True:
+                t_n = int(0.5 * j * (j + 1))
+                self.set.add(t_n)
+                self.curr_max = t_n
+                if t_n > max_element:
+                    self.curr_idx = j
+                    break
+                j += 1
+
+
 class SquareDigitChain(object):
     def __init__(self):
         self.cache = {}

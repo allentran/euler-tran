@@ -1,6 +1,8 @@
 import datetime
+import string
 import itertools
 
+import requests
 import numpy as np
 
 from euler_tran.prime import sieves
@@ -605,6 +607,319 @@ def problem30():
     print sum(all)
 
 
+def get_coin_groups(coinset, leftover):
+    valid_groups = []
+    max_denom = coinset[0]
+    max_uses = leftover / max_denom
+    if len(coinset) == 1:
+        return [[(max_denom, max_uses)]]
+    else:
+        for i in xrange(max_uses + 1):
+            if i == 0:
+                coin_list = get_coin_groups(coinset[1:], leftover)
+            else:
+                coin_list = get_coin_groups(coinset[1:], leftover - i * max_denom)
+            for l in coin_list:
+                valid_groups.append([(max_denom, i)] + l)
+    return valid_groups
+
+def problem31():
+
+    import time
+    t0 = time.time()
+    coinset = [1, 2, 5, 10, 20, 50, 100, 200][::-1]
+    groups = get_coin_groups(coinset, 200)
+    print len(groups)
+    print time.time() - t0
+    assert False
+    # print groups
+    # print len(groups)
+
+
+def problem35():
+
+    def check_circular(str_p):
+        long_str = str_p * 3
+        n = len(str_p)
+        sub_strs = [int(str_p)]
+        for i in xrange(1, n):
+            sub_strs.append(long_str[i: i + n])
+        return all([int(s) in primes for s in sub_strs])
+
+    primes = set(sieves.Erasosthenes.primes_less_than(1000000))
+    circular = []
+    for p in primes:
+        if check_circular(str(p)):
+            circular.append(p)
+
+    print len(circular)
+
+
+def problem32():
+
+    def get_products(tup):
+        products = set()
+        for idx in xrange(1, len(tup)):
+            first_product = get_number_tuple(tup[:idx])
+            second_product = get_number_tuple(tup[idx:])
+            product = first_product * second_product
+            products.add(product)
+        return products
+
+    def get_number_tuple(tup):
+        multiple = 1
+        total = 0
+        for n in tup[::-1]:
+            total += multiple * n
+            multiple *= 10
+        return total
+
+    digit_permutations = itertools.permutations(range(1, 10))
+    n_digits_for_final = [3, 4, 5]
+    keep = set()
+    for permutation in digit_permutations:
+        for final_n in n_digits_for_final:
+            final_digit = get_number_tuple(permutation[-final_n:])
+            remaining = permutation[:-final_n]
+            products = get_products(remaining)
+            if any([p == final_digit for p in products]):
+                keep.add(final_digit)
+
+    print sum(keep)
+
+
+def problem33():
+
+    def get_common_digits(str_a, str_b):
+        common = []
+        digits = set(list(str_a))
+        for c in str_b:
+            if c in digits and c != '0':
+                common.append(c)
+        return common
+
+    def cancelled_digit_frac(str_a, str_b):
+        common = get_common_digits(str_a, str_b)
+        if len(common) == 1:
+            try:
+                new_a = float(str_a.replace(common[0], ''))
+                new_b = float(str_b.replace(common[0], ''))
+                return new_a / new_b
+            except (ValueError, ZeroDivisionError):
+                pass
+
+    fracs = []
+    for numerator in xrange(10, 100):
+        num_str = str(numerator)
+        for denom in xrange(numerator + 1, 100):
+            denom_str = str(denom)
+            common_frac = cancelled_digit_frac(num_str, denom_str)
+            if common_frac and common_frac == float(numerator) / denom:
+                fracs.append((numerator / float(denom)))
+
+    print np.product(fracs)
+
+
+def problem34():
+    import math
+    factorial = {}
+    for n in xrange(0, 10):
+        factorial[str(n)] = math.factorial(n)
+
+    keep = []
+    for num_to_split in xrange(10, 1000000):
+        factorials = [factorial[c] for c in str(num_to_split)]
+        sum_d = np.sum(factorials)
+        if  sum_d == num_to_split:
+            keep.append(num_to_split)
+        else:
+            print sum_d, num_to_split
+
+    print sum(keep)
+
+
+def problem35():
+
+    def is_double_drome(n):
+        str_n = str(n)
+        str_b = str(bin(n))[2:]
+        return str_b[0] != '0' and str_n == str_n[::-1] and str_b == str_b[::-1]
+
+    keep = []
+    for n in xrange(1000000):
+        if is_double_drome(n):
+            print n, str(bin(n))[2:]
+            keep.append(n)
+
+    print sum(keep)
+
+def problem37():
+
+    def is_truncatable(prime):
+        prime_str = str(prime)
+        n = len(prime_str)
+        if n == 1:
+            return True
+        for start in xrange(1, n):
+            if int(prime_str[start:]) not in primes:
+                return False
+            if int(prime_str[:-start]) not in primes:
+                return False
+        return True
+
+    count = 0
+    max_n = 1000000
+    sieve = sieves.Erasosthenes()
+    primes = sieve.primes_less_than(max_n)
+    truncatable_primes = []
+
+    for prime in primes:
+        if prime <= 7:
+            continue
+        if is_truncatable(prime):
+            count += 1
+            truncatable_primes.append(prime)
+
+    print truncatable_primes, len(truncatable_primes), sum(truncatable_primes)
+
+
+def problem38():
+
+    def is_pandigital(i, n):
+        strs = [None] * n
+        for j in xrange(1, n + 1):
+            strs[j - 1] = str(j * i)
+        concatted = ''.join(strs)
+        if len(concatted) == 9 and len(set(concatted)) == 9 and '0' not in concatted:
+            return concatted
+        return False
+
+    curr_max = 123456789
+    for ii in xrange(1, 99999 + 1):
+        for jj in xrange(2, 10):
+            is_pd = is_pandigital(ii, jj)
+            if is_pd:
+                print ii, jj
+                if int(is_pd) > curr_max:
+                    print is_pd
+                    curr_max = int(is_pd)
+
+def problem41():
+
+    def is_pandigital(n):
+        concatted = str(n)
+        len_n = len(concatted)
+        if '1' not in concatted:
+            return False
+        if '0' in concatted:
+            return False
+        chars = set(concatted)
+        if chars < len_n:
+            return False
+        for idx in xrange(2, len_n + 1):
+            test_n = str(idx)
+            if test_n not in chars:
+                return False
+        else:
+            return True
+
+    max_n = 7654321
+    sieve = sieves.Erasosthenes()
+    primes = sieve.primes_less_than(max_n)
+    curr_max = 0
+    for p in primes:
+        if is_pandigital(p):
+            if p > curr_max:
+                curr_max = p
+
+    print curr_max
+
+
+def problem39():
+
+    def generate_solutions_to_perimeter(p):
+        # p = a + b + c
+        # a = p - b - c
+        # a > 0
+
+        # c ** 2 = a ** 2 + b ** 2
+        # c ** 2 = (p - b - c) ** 2 + b ** 2
+        # but also b < c
+        abcs = []
+        for c in xrange(1, p):
+            for b in xrange(1, c):
+                a = (p - b - c)
+                if a < 0:
+                    break
+                if a ** 2 + b ** 2 - c ** 2 == 0:
+                    abcs.append(
+                        (a, b, c)
+                    )
+                    break
+        return abcs
+
+    max_z = 0
+    max_p = 0
+    for p in xrange(5, 1000):
+        print p
+        z = generate_solutions_to_perimeter(p)
+        if len(z) > max_z:
+            max_z = len(z)
+            max_p = p
+
+    print max_z, max_p
+
+
+def problem40():
+    count = 0
+    i = 1
+    saved = {}
+    while count < 1000005:
+        increment = str(i)
+        for j in xrange(len(increment)):
+            count += 1
+            if count in {1, 10, 100, 1000, 10000, 100000, 1000000}:
+                saved[count] = int(increment[j])
+        i += 1
+
+    print saved
+    prod = 1
+    for v in saved.values():
+        prod *= v
+    print prod
+
+
+def problem42():
+    r = requests.get('https://projecteuler.net/project/resources/p042_words.txt')
+    if r.status_code == 200:
+        count = 0
+        words = r.content.split(',')
+        t_set = misc.TriangleNumber(10)
+        for word in words:
+            ints = [string.uppercase.index(c) + 1 for c in word[1:-1]]
+            summed = np.sum(ints).astype(int)
+            if summed > t_set.curr_max:
+                t_set.expand_upto(summed)
+            if summed in t_set.set:
+                count += 1
+
+        print count
+
+
+def problem43():
+    keep = []
+    for permutation in itertools.permutations(string.digits):
+        if permutation[0] != '0':
+            if int(''.join(permutation[1:4])) % 2 == 0:
+                if int(''.join(permutation[2:5])) % 3 == 0:
+                    if int(''.join(permutation[3:6])) % 5 == 0:
+                        if int(''.join(permutation[4:7])) % 7 == 0:
+                            if int(''.join(permutation[5:8])) % 11 == 0:
+                                if int(''.join(permutation[6:9])) % 13 == 0:
+                                    if int(''.join(permutation[7:10])) % 17 == 0:
+                                        keep.append(int(''.join(permutation)))
+
+    print np.sum(keep)
 
 
 def problem216():
@@ -638,4 +953,4 @@ def problem92():
         print count, i
 
 if __name__ == "__main__":
-    problem30()
+    problem43()

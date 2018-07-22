@@ -44,11 +44,29 @@ class TriangleNumber(object):
                 j += 1
 
 
+class Pentagonal(object):
+    def __init__(self, past_n=145):
+        self.i = 1
+        self.past_n = past_n
+        self.set = set()
+        self.expand_upto(self.past_n)
+
+    def expand_upto(self, new_n):
+        while True:
+            i = self.i
+            new_pentagon = i * (3 * i - 1) // 2
+            self.i += 1
+            self.past_n = new_pentagon
+            self.set.add(new_pentagon)
+            if new_pentagon > new_n:
+                break
+
+
 class SquareDigitChain(object):
     def __init__(self):
         self.cache = {}
         self.str_cache = {}
-        self.sq_cache = {n: n ** 2 for n in xrange(10)}
+        self.sq_cache = {n: n ** 2 for n in range(10)}
 
     def get_cache_end(self, n):
         if n in self.cache:
@@ -57,7 +75,7 @@ class SquareDigitChain(object):
     def _next(self, n):
         squares = []
         str_n = str(n)
-        for idx in xrange(len(str_n)):
+        for idx in range(len(str_n)):
             if str_n[idx:] in self.str_cache:
                 squares.append(self.str_cache[str_n[idx:]])
                 break

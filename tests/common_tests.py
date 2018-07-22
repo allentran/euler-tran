@@ -8,8 +8,8 @@ class CommonMethodTests(unittest.TestCase):
 
     def fib_test(self):
         gen = misc.fibonacci_generator()
-        for _ in xrange(10):
-            idx, val = gen.next()
+        for _ in range(10):
+            idx, val = next(gen)
 
         self.assertEqual(idx, 10)
         self.assertEqual(val, 55)
@@ -46,9 +46,13 @@ class CommonMethodTests(unittest.TestCase):
 
         sq = misc.SquareDigitChain()
         ones = []
-        for n in xrange(1, 14):
+        for n in range(1, 14):
             end = sq.get_end(n, [n])
             if end == 1:
                 ones.append(n)
         self.assertIn(13, ones)
         self.assertIn(7, ones)
+
+    def pentagon_test(self):
+        pentagonal = misc.Pentagonal()
+        self.assertEqual(len(pentagonal.set), 11)

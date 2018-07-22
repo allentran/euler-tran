@@ -9,7 +9,7 @@ def largest_product_in_list(l, n=4):
 
     max_seq = l[:n]
     curr_max = np.product(l[:n])
-    for idx in xrange(n, len(l) + 1):
+    for idx in range(n, len(l) + 1):
         new_max = np.product(l[idx - n:idx])
         if new_max > curr_max:
             max_seq = l[idx - n: idx]

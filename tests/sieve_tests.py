@@ -8,7 +8,7 @@ from euler_tran.prime.sieves import Erasosthenes, PrimalityTest
 class SieveTests(unittest.TestCase):
 
     def erastosthenes_test(self):
-        primes = Erasosthenes.primes_less_than(12)
+        primes = Erasosthenes.primes_less_than(12, return_set=False)
         numpy.testing.assert_array_equal(np.array([2, 3, 5, 7, 11]), primes)
 
     def is_prime_test(self):

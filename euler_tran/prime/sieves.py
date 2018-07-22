@@ -5,9 +5,9 @@ from bitarray import bitarray
 class PrimalityTest(object):
     def __init__(self, max_prime=200, use_set=False):
         if use_set:
-            self.known_primes = set(Erasosthenes.primes_less_than(max_prime))
+            self.known_primes = Erasosthenes.primes_less_than(max_prime)
         else:
-            self.known_primes = np.array(Erasosthenes.primes_less_than(max_prime))
+            self.known_primes = np.array(Erasosthenes.primes_less_than(max_prime, return_set=False))
 
     def is_prime_in_sieve(self, n):
         return n in self.known_primes
@@ -23,7 +23,7 @@ class PrimalityTest(object):
         elif any([p < n and n % p == 0 for p in valid_prime_factors]):
             return False
         else:
-            for i in xrange(5, sqrt_n):
+            for i in range(5, sqrt_n):
                 if n % i == 0 or n % (i + 2) == 0:
                     return False
                 i += 6
@@ -33,7 +33,7 @@ class PrimalityTest(object):
 class Erasosthenes(object):
 
     @staticmethod
-    def primes_less_than(x):
+    def primes_less_than(x, return_set=True):
 
         primes = bitarray(x)
         primes.setall(True)
@@ -41,14 +41,16 @@ class Erasosthenes(object):
         primes[0::2] = False
         primes[:2] = False
         primes[2] = True
-        for p in xrange(3, sqrt_n + 1, 2):
+        for p in range(3, sqrt_n + 1, 2):
             if primes[p]:
                 primes[p * p::2 * p] = False
 
         ps = set()
-        for idx in xrange(x):
+        for idx in range(x):
             if primes[idx]:
                 ps.add(idx)
-        return ps
-        return primes.nonzero()[0]
+        if return_set:
+            return ps
+        else:
+            return list(ps)
 

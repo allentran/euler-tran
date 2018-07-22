@@ -28,8 +28,8 @@ class Problem4(Problem):
     def max_palin(self):
 
         curr_max = 0
-        for num_i in xrange(self.min, self.max + 1):
-            for num_j in xrange(self.min, self.max + 1):
+        for num_i in range(self.min, self.max + 1):
+            for num_j in range(self.min, self.max + 1):
                 product = num_i * num_j
                 if product >= curr_max and self.ispalindrome(num_i * num_j):
                     curr_max = product
@@ -83,7 +83,7 @@ class Problem6(Problem):
     def findSum(self, num):
         cum_squares = 0
         cum_sum = 0
-        for ii in xrange(1, num + 1):
+        for ii in range(1, num + 1):
             cum_squares += ii ** 2
             cum_sum += ii
         return cum_sum ** 2 - cum_squares
@@ -162,7 +162,7 @@ class Problem8(Problem):
         sequence = [int(c) for c in sequence]
 
         max = 0
-        for idx in xrange(n - 1, len(sequence)):
+        for idx in range(n - 1, len(sequence)):
             sub_seq = sequence[idx + 1 - n: idx + 1]
             cum_prod = Problem8.calc_cum_prod(sub_seq)
             if cum_prod > max:
@@ -176,8 +176,8 @@ class Problem8(Problem):
 
 class Problem9(Problem):
     def get_answer(self):
-        for a in xrange(1, 999):
-            for b in xrange(a, 999):
+        for a in range(1, 999):
+            for b in range(a, 999):
                 lhs = a ** 2 + b ** 2
                 rhs = (1000 - a - b) ** 2
                 if lhs == rhs:
@@ -218,12 +218,12 @@ def problem11():
         rows.append([int(n) for n in line.split()])
 
     matrix = np.array(rows)
-    row_max = np.max([product.largest_product_in_list(matrix[idx, :], 4)[0] for idx in xrange(len(matrix))])
-    col_max = np.max([product.largest_product_in_list(matrix[:, idx], 4)[0] for idx in xrange(len(matrix))])
+    row_max = np.max([product.largest_product_in_list(matrix[idx, :], 4)[0] for idx in range(len(matrix))])
+    col_max = np.max([product.largest_product_in_list(matrix[:, idx], 4)[0] for idx in range(len(matrix))])
 
     diags = []
     horizontal_flip_matrix = np.fliplr(matrix)
-    for idx in xrange(20):
+    for idx in range(20):
         above = np.diag(matrix, idx)
         below = np.diag(matrix, -idx)
         above_flip = np.diag(horizontal_flip_matrix, idx)
@@ -258,7 +258,7 @@ def problem13():
     max_length = 0
     init_n = 1
     c = collatz.CollatzCache()
-    for n in xrange(1, 1000000):
+    for n in range(1, 1000000):
         length = c.until_n0(n)
         if length > max_length:
             max_length = length
@@ -291,9 +291,9 @@ def problem18():
     last_n = max(choices.keys())
     optimal = {last_n: choices[last_n]}
 
-    for n in xrange(last_n - 1, -1, -1):
+    for n in range(last_n - 1, -1, -1):
         optimal[n] = [None] * len(choices[n])
-        for idx in xrange(len(choices[n])):
+        for idx in range(len(choices[n])):
             left = optimal[n + 1][idx] + choices[n][idx]
             right = optimal[n + 1][idx + 1] + choices[n][idx]
             if left > right:
@@ -414,9 +414,9 @@ def problem67():
     last_n = max(choices.keys())
     optimal = {last_n: choices[last_n]}
 
-    for n in xrange(last_n - 1, -1, -1):
+    for n in range(last_n - 1, -1, -1):
         optimal[n] = [None] * len(choices[n])
-        for idx in xrange(len(choices[n])):
+        for idx in range(len(choices[n])):
             left = optimal[n + 1][idx] + choices[n][idx]
             right = optimal[n + 1][idx + 1] + choices[n][idx]
             if left > right:
@@ -428,8 +428,8 @@ def problem67():
 
 def problem19():
     count = 0
-    for year in xrange(1901, 2001):
-        for month in xrange(1, 13):
+    for year in range(1901, 2001):
+        for month in range(1, 13):
             start_date = datetime.date(year, month, 1)
             if start_date.weekday() == 6:
                 count += 1
@@ -453,7 +453,7 @@ def problem21():
         fs.remove(n)
         return np.sum(list(fs)).astype(int)
     ds = {}
-    for idx in xrange(1, 10000):
+    for idx in range(1, 10000):
         ds[idx] = d(idx)
 
     amicable = []
@@ -489,7 +489,7 @@ def problem23():
         return False
 
     abundant_arr = []
-    for n in xrange(1, 28123 + 1):
+    for n in range(1, 28123 + 1):
         if is_abuntant(n):
             abundant_arr.append(n)
     abundant_set = set(abundant_arr)
@@ -498,7 +498,7 @@ def problem23():
     abundant_bitmask[abundant_arr] = True
 
     not_summable = []
-    for base in xrange(0, 28123 + 1):
+    for base in range(0, 28123 + 1):
         if not is_sum_abundant(base, abundant_bitmask):
             print base, 0
             not_summable.append(base)
@@ -509,7 +509,7 @@ def problem23():
 def problem26():
     curr_max = 0
     max_idx = 0
-    for x in xrange(2, 1000):
+    for x in range(2, 1000):
         recurr = misc.recurring_fraction(x)
         if recurr > curr_max:
             curr_max = recurr
@@ -527,7 +527,7 @@ def problem27():
     max_in_a_row = 0
     max_pair = (0, 0)
     for b in bs:
-        for a in xrange(1 - b, 1000):
+        for a in range(1 - b, 1000):
             if 1 + a + b in a_prime_set:
                 n = 0
                 while True:
@@ -566,7 +566,7 @@ def problem28():
         'u': 'r'
     }
     curr_direction = 'u'
-    for n in xrange(1, N * N + 1):
+    for n in range(1, N * N + 1):
         matrix[y, x] = n
         next_post_same = next_pos(y, x, curr_direction)
         if next_post_same[0] in [N, -1] or next_post_same[1] in [N, -1] or matrix[next_post_same[0], next_post_same[1]] == -1:
@@ -586,8 +586,8 @@ def problem28():
 def problem29():
     numbers = set()
     N = 100
-    for a in xrange(2, N + 1):
-        for b in xrange(2, N + 1):
+    for a in range(2, N + 1):
+        for b in range(2, N + 1):
             numbers.add(a ** b)
 
     print len(numbers)
@@ -596,7 +596,7 @@ def problem29():
 def problem30():
     power = 5
     all = []
-    for n in xrange(2, 10 ** (power + 1)):
+    for n in range(2, 10 ** (power + 1)):
         str_n = [int(x) for x in (str(n))]
         if len(str_n) > 1:
             powers = np.power(str_n, power)
@@ -614,7 +614,7 @@ def get_coin_groups(coinset, leftover):
     if len(coinset) == 1:
         return [[(max_denom, max_uses)]]
     else:
-        for i in xrange(max_uses + 1):
+        for i in range(max_uses + 1):
             if i == 0:
                 coin_list = get_coin_groups(coinset[1:], leftover)
             else:
@@ -642,7 +642,7 @@ def problem35():
         long_str = str_p * 3
         n = len(str_p)
         sub_strs = [int(str_p)]
-        for i in xrange(1, n):
+        for i in range(1, n):
             sub_strs.append(long_str[i: i + n])
         return all([int(s) in primes for s in sub_strs])
 
@@ -659,7 +659,7 @@ def problem32():
 
     def get_products(tup):
         products = set()
-        for idx in xrange(1, len(tup)):
+        for idx in range(1, len(tup)):
             first_product = get_number_tuple(tup[:idx])
             second_product = get_number_tuple(tup[idx:])
             product = first_product * second_product
@@ -709,9 +709,9 @@ def problem33():
                 pass
 
     fracs = []
-    for numerator in xrange(10, 100):
+    for numerator in range(10, 100):
         num_str = str(numerator)
-        for denom in xrange(numerator + 1, 100):
+        for denom in range(numerator + 1, 100):
             denom_str = str(denom)
             common_frac = cancelled_digit_frac(num_str, denom_str)
             if common_frac and common_frac == float(numerator) / denom:
@@ -723,11 +723,11 @@ def problem33():
 def problem34():
     import math
     factorial = {}
-    for n in xrange(0, 10):
+    for n in range(0, 10):
         factorial[str(n)] = math.factorial(n)
 
     keep = []
-    for num_to_split in xrange(10, 1000000):
+    for num_to_split in range(10, 1000000):
         factorials = [factorial[c] for c in str(num_to_split)]
         sum_d = np.sum(factorials)
         if  sum_d == num_to_split:
@@ -746,7 +746,7 @@ def problem35():
         return str_b[0] != '0' and str_n == str_n[::-1] and str_b == str_b[::-1]
 
     keep = []
-    for n in xrange(1000000):
+    for n in range(1000000):
         if is_double_drome(n):
             print n, str(bin(n))[2:]
             keep.append(n)
@@ -760,7 +760,7 @@ def problem37():
         n = len(prime_str)
         if n == 1:
             return True
-        for start in xrange(1, n):
+        for start in range(1, n):
             if int(prime_str[start:]) not in primes:
                 return False
             if int(prime_str[:-start]) not in primes:
@@ -787,7 +787,7 @@ def problem38():
 
     def is_pandigital(i, n):
         strs = [None] * n
-        for j in xrange(1, n + 1):
+        for j in range(1, n + 1):
             strs[j - 1] = str(j * i)
         concatted = ''.join(strs)
         if len(concatted) == 9 and len(set(concatted)) == 9 and '0' not in concatted:
@@ -795,8 +795,8 @@ def problem38():
         return False
 
     curr_max = 123456789
-    for ii in xrange(1, 99999 + 1):
-        for jj in xrange(2, 10):
+    for ii in range(1, 99999 + 1):
+        for jj in range(2, 10):
             is_pd = is_pandigital(ii, jj)
             if is_pd:
                 print ii, jj
@@ -816,7 +816,7 @@ def problem41():
         chars = set(concatted)
         if chars < len_n:
             return False
-        for idx in xrange(2, len_n + 1):
+        for idx in range(2, len_n + 1):
             test_n = str(idx)
             if test_n not in chars:
                 return False
@@ -846,8 +846,8 @@ def problem39():
         # c ** 2 = (p - b - c) ** 2 + b ** 2
         # but also b < c
         abcs = []
-        for c in xrange(1, p):
-            for b in xrange(1, c):
+        for c in range(1, p):
+            for b in range(1, c):
                 a = (p - b - c)
                 if a < 0:
                     break
@@ -860,7 +860,7 @@ def problem39():
 
     max_z = 0
     max_p = 0
-    for p in xrange(5, 1000):
+    for p in range(5, 1000):
         print p
         z = generate_solutions_to_perimeter(p)
         if len(z) > max_z:
@@ -876,7 +876,7 @@ def problem40():
     saved = {}
     while count < 1000005:
         increment = str(i)
-        for j in xrange(len(increment)):
+        for j in range(len(increment)):
             count += 1
             if count in {1, 10, 100, 1000, 10000, 100000, 1000000}:
                 saved[count] = int(increment[j])
@@ -921,6 +921,13 @@ def problem43():
 
     print np.sum(keep)
 
+def problem44():
+    # suppose have list of pentagonal_numbers P(> k)
+    # iterate over pairs
+    #     is sum pentagonal (increment P > sum)
+    #       is diff pentagonal
+    pass
+
 
 def problem216():
     import time
@@ -930,7 +937,7 @@ def problem216():
     print time.time() - t0
     assert False
     count = 0
-    for n in xrange(1, N + 1):
+    for n in range(1, N + 1):
         t_n = 2 * (n * n) - 1
         is_prime = prime_tester.is_prime_in_sieve(t_n)
         if is_prime:
@@ -946,7 +953,7 @@ def problem24():
 def problem92():
     count = 0
     seq = misc.SquareDigitChain()
-    for i in xrange(1, 10000000):
+    for i in range(1, 10000000):
         end = seq.get_end(i, [i])
         if end == 89:
             count += 1

@@ -1,5 +1,7 @@
 import unittest
 
+import numpy as np
+
 from euler_tran.sequence import product, collatz, misc
 from euler_tran.divisors import factors
 
@@ -54,5 +56,9 @@ class CommonMethodTests(unittest.TestCase):
         self.assertIn(7, ones)
 
     def pentagon_test(self):
-        pentagonal = misc.Pentagonal()
-        self.assertEqual(len(pentagonal.set), 11)
+        pentagonal = misc.Pentagonal(upto_n=117)
+        self.assertEqual(len(pentagonal.set), 9)
+        self.assertEqual(pentagonal.get_next(), 145)
+
+        assert False
+

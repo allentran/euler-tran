@@ -45,21 +45,24 @@ class TriangleNumber(object):
 
 
 class Pentagonal(object):
-    def __init__(self, past_n=145):
+    def __init__(self, upto_n=145):
         self.i = 1
-        self.past_n = past_n
+        self.upto_n = upto_n
         self.set = set()
-        self.expand_upto(self.past_n)
+        self.expand_upto(self.upto_n)
+
+    def get_next(self):
+        return self.expand_upto(self.upto_n + 1)
 
     def expand_upto(self, new_n):
         while True:
             i = self.i
             new_pentagon = i * (3 * i - 1) // 2
             self.i += 1
-            self.past_n = new_pentagon
+            self.upto_n = new_pentagon
             self.set.add(new_pentagon)
-            if new_pentagon > new_n:
-                break
+            if new_pentagon >= new_n:
+                return new_pentagon
 
 
 class SquareDigitChain(object):

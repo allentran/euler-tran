@@ -629,8 +629,8 @@ def problem31():
     t0 = time.time()
     coinset = [1, 2, 5, 10, 20, 50, 100, 200][::-1]
     groups = get_coin_groups(coinset, 200)
-    print len(groups)
-    print time.time() - t0
+    print(len(groups))
+    print(time.time() - t0)
     assert False
     # print groups
     # print len(groups)
@@ -652,7 +652,7 @@ def problem35():
         if check_circular(str(p)):
             circular.append(p)
 
-    print len(circular)
+    print(len(circular))
 
 
 def problem32():
@@ -685,7 +685,7 @@ def problem32():
             if any([p == final_digit for p in products]):
                 keep.add(final_digit)
 
-    print sum(keep)
+    print(sum(keep))
 
 
 def problem33():
@@ -903,7 +903,7 @@ def problem42():
             if summed in t_set.set:
                 count += 1
 
-        print count
+        print(count)
 
 
 def problem43():
@@ -919,14 +919,26 @@ def problem43():
                                     if int(''.join(permutation[7:10])) % 17 == 0:
                                         keep.append(int(''.join(permutation)))
 
-    print np.sum(keep)
+    print(np.sum(keep))
+
 
 def problem44():
     # suppose have list of pentagonal_numbers P(> k)
-    # iterate over pairs
-    #     is sum pentagonal (increment P > sum)
-    #       is diff pentagonal
-    pass
+    # iterate over pentagonal >= 12, p
+    # find pairs which are pentagonal [n(3n-1) + k(3k-1)] / 2 in P and diff in P
+    max_n = 10000000
+    pentagonal = misc.Pentagonal(5)
+    while pentagonal.upto_n < max_n:
+        curr_n = pentagonal.upto_n
+        half_n = curr_n / 2
+        for other_n in pentagonal.set:
+            if other_n != curr_n and other_n <= half_n:
+                other_n2 = curr_n - other_n
+                if other_n2 in pentagonal.set:
+                    if other_n2 - other_n in pentagonal.set:
+                        print((other_n2 - other_n, curr_n, 'diff'))
+        pentagonal.get_next()
+
 
 
 def problem216():
@@ -934,20 +946,19 @@ def problem216():
     N = 10000
     t0 = time.time()
     prime_tester = sieves.PrimalityTest(2 * (N * N) - 1, use_set=True)
-    print time.time() - t0
-    assert False
+    print(time.time() - t0)
     count = 0
     for n in range(1, N + 1):
         t_n = 2 * (n * n) - 1
         is_prime = prime_tester.is_prime_in_sieve(t_n)
         if is_prime:
             count += 1
-    print count
+    print(count)
 
 
 def problem24():
     import itertools
-    print list(itertools.permutations(range(10)))[999]
+    print(list(itertools.permutations(range(10)))[999])
 
 
 def problem92():
@@ -957,7 +968,8 @@ def problem92():
         end = seq.get_end(i, [i])
         if end == 89:
             count += 1
-        print count, i
+        print(count, i)
+
 
 if __name__ == "__main__":
     problem43()

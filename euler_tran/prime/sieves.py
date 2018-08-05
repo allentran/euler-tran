@@ -33,7 +33,7 @@ class PrimalityTest(object):
 class Erasosthenes(object):
 
     @staticmethod
-    def primes_less_than(x, return_set=True):
+    def primes_less_than(x, return_set=True, return_bitarray=False):
 
         primes = bitarray(x)
         primes.setall(True)
@@ -45,12 +45,18 @@ class Erasosthenes(object):
             if primes[p]:
                 primes[p * p::2 * p] = False
 
-        ps = set()
+        if return_bitarray:
+            return primes
+
+        if return_set:
+            ps = set()
+        else:
+            ps = []
         for idx in range(x):
             if primes[idx]:
-                ps.add(idx)
-        if return_set:
-            return ps
-        else:
-            return list(ps)
+                if return_set:
+                    ps.add(idx)
+                else:
+                    ps.append(idx)
+        return ps
 

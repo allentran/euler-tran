@@ -12,6 +12,6 @@ while True:
     first = second
     second = added
 
-    print added, total 
+    print(added, total
 
-print total
+print(total

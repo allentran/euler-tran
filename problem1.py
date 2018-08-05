@@ -13,5 +13,5 @@ for ii in range(lessThan/multiple):
     if candidate % 3 > 0:
         curr += candidate
 
-print curr
+print(curr
 

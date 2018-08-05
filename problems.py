@@ -2,10 +2,10 @@ import datetime
 import string
 import itertools
 
-import requests
+# import requests
 import numpy as np
 
-from euler_tran.prime import sieves
+from euler_tran.prime import sieves, factors as prime_factors
 from euler_tran.sequence import product, collatz, misc
 from euler_tran.divisors import factors
 
@@ -36,7 +36,7 @@ class Problem4(Problem):
         return curr_max
 
     def get_answer(self):
-        print self.max_palin()
+        print(self.max_palin())
 
 
 class Problem5(Problem):
@@ -54,7 +54,7 @@ class Problem5(Problem):
                     count += 1
                     curr_num /= prime
                 factors[prime] = count
-        print factors
+        print(factors)
         return factors
 
     def find_smallest_prod(self, max_prod):
@@ -76,7 +76,7 @@ class Problem5(Problem):
         return primes, cum_prod
 
     def get_answer(self):
-        print self.find_smallest_prod(20)
+        print(self.find_smallest_prod(20))
 
 
 class Problem6(Problem):
@@ -89,7 +89,7 @@ class Problem6(Problem):
         return cum_sum ** 2 - cum_squares
 
     def get_answer(self):
-        print self.findSum(100)
+        print(self.findSum(100))
 
 
 class Problem7(Problem):
@@ -185,7 +185,7 @@ class Problem9(Problem):
 
 def problem10():
    primes = sieves.Erasosthenes.primes_less_than(2000000)
-   print sum(primes)
+   print(sum(primes))
 
 
 
@@ -236,7 +236,7 @@ def problem11():
 
     diag_max = np.max(diags)
 
-    print np.max([diag_max, row_max, col_max])
+    print(np.max([diag_max, row_max, col_max]))
 
 
 def problem12():
@@ -250,7 +250,7 @@ def problem12():
         curr_i += 1
         if n_factors > max_factors:
             max_factors = n_factors
-        print total, n_factors, max_factors
+        print(total, n_factors, max_factors)
         if n_factors > 500:
             break
 
@@ -263,7 +263,7 @@ def problem13():
         if length > max_length:
             max_length = length
             init_n = n
-            print n, length
+            print(n, length)
 
 def problem18():
     s = """
@@ -300,7 +300,7 @@ def problem18():
                 optimal[n][idx] = left
             else:
                 optimal[n][idx] = right
-    print optimal
+    print(optimal)
 
 def problem67():
     s = """
@@ -423,7 +423,7 @@ def problem67():
                 optimal[n][idx] = left
             else:
                 optimal[n][idx] = right
-    print optimal
+    print(optimal)
 
 
 def problem19():
@@ -433,7 +433,7 @@ def problem19():
             start_date = datetime.date(year, month, 1)
             if start_date.weekday() == 6:
                 count += 1
-    print count
+    print(count)
 
 
 def problem25():
@@ -441,10 +441,10 @@ def problem25():
     while True:
         idx, fib = fib_gen.next()
         if len(str(fib)) >= 1000:
-            print idx
+            print(idx)
             break
         else:
-            print idx, fib
+            print(idx, fib)
 
 
 def problem21():
@@ -473,7 +473,7 @@ def problem21():
             nums.remove(ds[num])
         except KeyError:
             pass
-    print np.sum(list(set(amicable)))
+    print(np.sum(list(set(amicable))))
 
 
 def problem23():
@@ -500,10 +500,10 @@ def problem23():
     not_summable = []
     for base in range(0, 28123 + 1):
         if not is_sum_abundant(base, abundant_bitmask):
-            print base, 0
+            print(base, 0)
             not_summable.append(base)
 
-    print np.sum(not_summable)
+    print(np.sum(not_summable))
 
 
 def problem26():
@@ -514,7 +514,7 @@ def problem26():
         if recurr > curr_max:
             curr_max = recurr
             max_idx = x
-    print curr_max, max_idx
+    print(curr_max, max_idx)
 
 
 def problem27():
@@ -540,7 +540,7 @@ def problem27():
                     max_in_a_row = n
                     max_pair = a, b
 
-    print max_in_a_row, max_pair
+    print(max_in_a_row, max_pair)
 
 
 def problem28():
@@ -577,10 +577,10 @@ def problem28():
 
     pos = np.arange(0, N)
     neg = np.arange(N - 1, -1, -1)
-    print matrix
+    print(matrix)
     diags = set(matrix[pos, pos])
     diags |= set(matrix[neg, pos])
-    print sum(diags)
+    print(sum(diags))
 
 
 def problem29():
@@ -590,7 +590,7 @@ def problem29():
         for b in range(2, N + 1):
             numbers.add(a ** b)
 
-    print len(numbers)
+    print(len(numbers))
 
 
 def problem30():
@@ -602,9 +602,9 @@ def problem30():
             powers = np.power(str_n, power)
             sumd = powers.sum()
             if sumd == n:
-                print n
+                print(n)
                 all.append(n)
-    print sum(all)
+    print(sum(all))
 
 
 def get_coin_groups(coinset, leftover):
@@ -632,8 +632,8 @@ def problem31():
     print(len(groups))
     print(time.time() - t0)
     assert False
-    # print groups
-    # print len(groups)
+    # print(groups)
+    # print(len(groups))
 
 
 def problem35():
@@ -717,7 +717,7 @@ def problem33():
             if common_frac and common_frac == float(numerator) / denom:
                 fracs.append((numerator / float(denom)))
 
-    print np.product(fracs)
+    print(np.product(fracs))
 
 
 def problem34():
@@ -733,9 +733,9 @@ def problem34():
         if  sum_d == num_to_split:
             keep.append(num_to_split)
         else:
-            print sum_d, num_to_split
+            print(sum_d, num_to_split)
 
-    print sum(keep)
+    print(sum(keep))
 
 
 def problem35():
@@ -748,10 +748,10 @@ def problem35():
     keep = []
     for n in range(1000000):
         if is_double_drome(n):
-            print n, str(bin(n))[2:]
+            print(n, str(bin(n))[2:])
             keep.append(n)
 
-    print sum(keep)
+    print(sum(keep))
 
 def problem37():
 
@@ -780,7 +780,7 @@ def problem37():
             count += 1
             truncatable_primes.append(prime)
 
-    print truncatable_primes, len(truncatable_primes), sum(truncatable_primes)
+    print(truncatable_primes, len(truncatable_primes), sum(truncatable_primes))
 
 
 def problem38():
@@ -799,9 +799,9 @@ def problem38():
         for jj in range(2, 10):
             is_pd = is_pandigital(ii, jj)
             if is_pd:
-                print ii, jj
+                print(ii, jj)
                 if int(is_pd) > curr_max:
-                    print is_pd
+                    print(is_pd)
                     curr_max = int(is_pd)
 
 def problem41():
@@ -832,7 +832,7 @@ def problem41():
             if p > curr_max:
                 curr_max = p
 
-    print curr_max
+    print(curr_max)
 
 
 def problem39():
@@ -861,13 +861,13 @@ def problem39():
     max_z = 0
     max_p = 0
     for p in range(5, 1000):
-        print p
+        print(p)
         z = generate_solutions_to_perimeter(p)
         if len(z) > max_z:
             max_z = len(z)
             max_p = p
 
-    print max_z, max_p
+    print(max_z, max_p)
 
 
 def problem40():
@@ -882,11 +882,11 @@ def problem40():
                 saved[count] = int(increment[j])
         i += 1
 
-    print saved
+    print(saved)
     prod = 1
     for v in saved.values():
         prod *= v
-    print prod
+    print(prod)
 
 
 def problem42():
@@ -961,6 +961,66 @@ def problem24():
     print(list(itertools.permutations(range(10)))[999])
 
 
+def problem47():
+    N = 700
+    n = 2
+    T = 4
+    factorizer = prime_factors.PrimeFactors()
+
+    sequence = False
+    while not sequence:
+        for i in range(n, N):
+            for _t in range(T):
+                j = i - _t
+                prime_factors_of_j = factorizer.get_factors(j)
+                if len(prime_factors_of_j) == T:
+                    print(j, prime_factors_of_j)
+                    continue
+                break
+            else:
+                sequence = True
+                break
+        n = N - 1
+        N *= 2
+    print(j)
+
+
+
+def problem46():
+
+    def goldbach_check(composite, lower_primes, lower_composites):
+        if composite % 2 == 0:
+            return True
+        for p in lower_primes:
+            r = composite - p
+            root = np.sqrt(r / 2)
+            if root in lower_composites or root in lower_primes:
+                print(root, composite, p, True)
+                return True
+
+        print(composite, False)
+        return False
+
+    n = 100
+    found = False
+    while not found:
+        primes = sieves.Erasosthenes.primes_less_than(n, return_set=False, return_bitarray=True)
+        lower_primes = set()
+        lower_composites = {0, 1}
+        for ii in range(2, n):
+            if not primes[ii]:
+                if goldbach_check(ii, lower_primes, lower_composites):
+                    lower_composites.add(ii)
+                else:
+                    found = True
+                    break
+            else:
+                lower_primes.add(ii)
+        else:
+            n *= 2
+
+
+
 def problem92():
     count = 0
     seq = misc.SquareDigitChain()
@@ -972,4 +1032,4 @@ def problem92():
 
 
 if __name__ == "__main__":
-    problem43()
+    problem47()
